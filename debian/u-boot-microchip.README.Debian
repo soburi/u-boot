@@ -1,0 +1,13 @@
+== Installation ==
+
+The u-boot-microchip package installs U-Boot in its post installations script
+to the partition named 'loader'. If that partition does not exist, you will
+have to copy U-Boot manually.
+
+For the Microchip Icicle Kit, something like the following should work:
+
+   dd conv=fsync,notrunc if=/usr/lib/u-boot/microchip_icicle/u-boot.payload \
+   of=/dev/DEVICE
+
+Replace DEVICE by the partition with partition type EF02
+(GUID type 21686148-6449-6E6F-744E-656564454649) of the SD-card.

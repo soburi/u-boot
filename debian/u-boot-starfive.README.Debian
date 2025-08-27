@@ -1,0 +1,15 @@
+StarFive VisionFive 2
+=====================
+
+Directory /usr/lib/u-boot/starfive_visionfive2/ contains the U-Boot binaries.
+
+The VisionFive 2 supports different boot sources (SPI flash, SD-card, eMMC,
+UART) selected by DIP switches.
+
+/usr/share/doc/u-boot-starfive/visionfive2.rst.gz describes writing U-Boot to
+boot from an SD card.
+
+Updating U-Boot on the SPI flash is described in
+https://doc-en.rvspace.org/VisionFive2/PDF/VisionFive2_QSG.pdf,
+chapter "3.8.1. Updating SPL and U-Boot of Flash". Replace the file name
+visionfive2_fw_payload.img by u-boot.itb.

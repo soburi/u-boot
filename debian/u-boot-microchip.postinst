@@ -1,0 +1,19 @@
+#!/bin/sh
+
+##DEBHELPER##
+
+set -e
+
+case "$1" in
+    configure)
+        target=""
+        if grep -q '^Microchip PolarFire-SoC Icicle Kit$' /sys/firmware/devicetree/base/model; then
+            target="microchip_icicle"
+        fi
+        if [ -n "$target" ] && [ -e /dev/disk/by-partlabel/loader ]; then
+            dd if=/usr/lib/u-boot/$target/u-boot.payload of=/dev/disk/by-partlabel/loader
+        fi
+        ;;
+esac
+
+exit 0
