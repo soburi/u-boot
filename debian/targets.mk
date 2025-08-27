@@ -3,6 +3,8 @@
 
 ifeq (${DEB_HOST_ARCH},arm64)
 
+ifdef NO_COMMENT_OUT
+
 # u-boot-amlogic
 
   # Neil Armstrong <narmstrong@baylibre.com>
@@ -147,10 +149,13 @@ ifeq (${DEB_HOST_ARCH},arm64)
   u-boot-rpi_platforms += rpi_4
   rpi_4_targets := u-boot.bin uboot.elf
 
+endif
+
   # Denis Pynkin <denis.pynkin@collabora.com>
   u-boot-rpi_platforms += rpi_arm64
   rpi_arm64_targets := u-boot.bin uboot.elf
 
+ifdef NO_COMMENT_OUT
 # u-boot-sitara
 
   # Martyn Welch <martyn.welch@collabora.com>
@@ -604,6 +609,10 @@ else ifeq (${DEB_HOST_ARCH},sh4)
 
 endif
 
+endif
+
+ifdef NO_COMMENT_OUT
+
 # u-boot-qemu (Architecture: all)
 
   u-boot-qemu_platforms += malta64el
@@ -641,3 +650,5 @@ endif
   u-boot-qemu_platforms += qemu_arm64
   qemu_arm64_CROSS_COMPILE := aarch64-linux-gnu-
   qemu_arm64_targets := u-boot.bin uboot.elf
+
+endif
