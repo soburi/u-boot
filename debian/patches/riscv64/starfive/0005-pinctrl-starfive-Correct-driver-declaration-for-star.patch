@@ -1,0 +1,42 @@
+From d880024b92e97ec326d41838d96fa2935b5464fd Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Thu, 16 Jan 2025 11:45:34 +0800
+Subject: [PATCH 05/27] pinctrl: starfive: Correct driver declaration for
+ starfive_gpio
+
+Use the driver macros so that the driver appears in the
+linker list.
+
+Reported-by: Simon Glass <sjg@chromium.org>
+Fixes: 732f01aabf53 ("pinctrl: starfive: Add StarFive JH7110 driver")
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+Reviewed-by: Anand Moon <linux.amoon@gmail.com>
+---
+ drivers/pinctrl/starfive/pinctrl-starfive.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pinctrl/starfive/pinctrl-starfive.c b/drivers/pinctrl/starfive/pinctrl-starfive.c
+index 95b1a752de2..1b942e6f045 100644
+--- a/drivers/pinctrl/starfive/pinctrl-starfive.c
++++ b/drivers/pinctrl/starfive/pinctrl-starfive.c
+@@ -348,7 +348,7 @@ static const struct dm_gpio_ops starfive_gpio_ops = {
+ 	.set_value = starfive_gpio_set_value,
+ };
+ 
+-static struct driver starfive_gpio_driver = {
++U_BOOT_DRIVER(starfive_gpio) = {
+ 	.name = "starfive_gpio",
+ 	.id = UCLASS_GPIO,
+ 	.probe = starfive_gpio_probe,
+@@ -367,7 +367,7 @@ static int starfive_gpiochip_register(struct udevice *parent)
+ 		return -ENOENT;
+ 
+ 	node = dev_ofnode(parent);
+-	ret = device_bind_with_driver_data(parent, &starfive_gpio_driver,
++	ret = device_bind_with_driver_data(parent, DM_DRIVER_REF(starfive_gpio),
+ 					   "starfive_gpio", 0, node, &dev);
+ 
+ 	return (ret == 0) ? 0 : ret;
+-- 
+2.43.0
+

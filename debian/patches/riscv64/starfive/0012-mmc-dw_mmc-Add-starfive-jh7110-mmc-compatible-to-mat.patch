@@ -1,0 +1,29 @@
+From 324d3a5f5f9bac9585ece5886c53ab99a2bf9880 Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 8 Dec 2024 17:19:33 +0800
+Subject: [PATCH 12/27] mmc: dw_mmc: Add "starfive, jh7110-mmc" compatible to
+ match upstream DT
+
+Make the U-Boot JH7110 MMC driver compatible with upstream DT.
+
+Reviewed-by: Jaehoon Chung <jh80.chung@samsung.com>
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ drivers/mmc/snps_dw_mmc.c | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/drivers/mmc/snps_dw_mmc.c b/drivers/mmc/snps_dw_mmc.c
+index 47ab5654bd6..92880e0ed87 100644
+--- a/drivers/mmc/snps_dw_mmc.c
++++ b/drivers/mmc/snps_dw_mmc.c
+@@ -186,6 +186,7 @@ static int snps_dwmmc_bind(struct udevice *dev)
+ 
+ static const struct udevice_id snps_dwmmc_ids[] = {
+ 	{ .compatible = "snps,dw-mshc" },
++	{ .compatible = "starfive,jh7110-mmc" },
+ 	{ }
+ };
+ 
+-- 
+2.43.0
+

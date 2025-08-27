@@ -1,0 +1,32 @@
+From bd8645f720f908fd6e70893aea88921d9323cbf0 Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 8 Dec 2024 17:19:38 +0800
+Subject: [PATCH 17/27] configs: visionfive2: Enable MULTI_DTB_FIT for JH7110
+ based board DT
+
+So JH7110 based boards can select their own DT at runtime.
+
+Tested-by: Anand Moon <linux.amoon@gmail.com>
+Tested-by: E Shattow <lucent@gmail.com>
+Reviewed-by: E Shattow <lucent@gmail.com>
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ configs/starfive_visionfive2_defconfig | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/configs/starfive_visionfive2_defconfig b/configs/starfive_visionfive2_defconfig
+index 389adb5e55b..c3f2142ae1b 100644
+--- a/configs/starfive_visionfive2_defconfig
++++ b/configs/starfive_visionfive2_defconfig
+@@ -78,6 +78,8 @@ CONFIG_CMD_WDT=y
+ CONFIG_CMD_TFTPPUT=y
+ CONFIG_CMD_BOOTSTAGE=y
+ CONFIG_OF_BOARD=y
++CONFIG_OF_LIST="starfive/jh7110-milkv-mars starfive/jh7110-pine64-star64 starfive/jh7110-starfive-visionfive-2-v1.2a starfive/jh7110-starfive-visionfive-2-v1.3b"
++CONFIG_MULTI_DTB_FIT=y
+ CONFIG_ENV_OVERWRITE=y
+ CONFIG_ENV_IS_IN_SPI_FLASH=y
+ CONFIG_ENV_SECT_SIZE_AUTO=y
+-- 
+2.43.0
+

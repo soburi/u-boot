@@ -1,0 +1,41 @@
+From 079da94f154712145a8777a800df222a1672c5be Mon Sep 17 00:00:00 2001
+From: Jesse Taube <mr.bossman075@gmail.com>
+Date: Thu, 16 Jan 2025 22:00:48 -0500
+Subject: [PATCH 02/27] pinctrl: imx: Fix NULL dereference in
+ imx_pinctrl_probe()
+
+When converting to ofnode `ofnode_read_u32` was accedentally used to
+replace `fdtdec_get_int` instead of `ofnode_read_u32_default`.
+Use `ofnode_read_u32_default` to fix this.
+
+Fixes: 59382d2 ("pinctrl: imx: Convert to use livetree API for fdt access")
+Signed-off-by: Jesse Taube <Mr.Bossman075@gmail.com>
+---
+ drivers/pinctrl/nxp/pinctrl-imx.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/drivers/pinctrl/nxp/pinctrl-imx.c b/drivers/pinctrl/nxp/pinctrl-imx.c
+index b1960c56b51..54cec37327c 100644
+--- a/drivers/pinctrl/nxp/pinctrl-imx.c
++++ b/drivers/pinctrl/nxp/pinctrl-imx.c
+@@ -219,7 +219,7 @@ int imx_pinctrl_probe(struct udevice *dev,
+ 	if (info->flags & IMX8_USE_SCU)
+ 		return 0;
+ 
+-	addr = ofnode_get_addr_size_index(dev_ofnode(dev), 0, &size);
++	addr = ofnode_get_addr_size_index(node, 0, &size);
+ 	if (addr == FDT_ADDR_T_NONE)
+ 		return -EINVAL;
+ 
+@@ -228,7 +228,7 @@ int imx_pinctrl_probe(struct udevice *dev,
+ 		return -ENOMEM;
+ 	priv->info = info;
+ 
+-	info->mux_mask = ofnode_read_u32(node, "fsl,mux_mask", 0);
++	info->mux_mask = ofnode_read_u32_default(node, "fsl,mux_mask", 0);
+ 	/*
+ 	 * Refer to linux documentation for details:
+ 	 * Documentation/devicetree/bindings/pinctrl/fsl,imx7d-pinctrl.txt
+-- 
+2.43.0
+

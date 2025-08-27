@@ -1,0 +1,31 @@
+From c47865a8fd74a644884cd36b4b19cde645f718b9 Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Fri, 7 Feb 2025 16:59:58 +0100
+Subject: [PATCH 25/27] riscv: dts: jh7110: add DeepComputing FML13V01
+ device-tree
+
+Add the u-boot device-tree include needed to support the
+DeepComputing Framework motherboard (FML13V01).
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ arch/riscv/dts/jh7110-deepcomputing-fml13v01-u-boot.dtsi | 7 +++++++
+ 1 file changed, 7 insertions(+)
+ create mode 100644 arch/riscv/dts/jh7110-deepcomputing-fml13v01-u-boot.dtsi
+
+diff --git a/arch/riscv/dts/jh7110-deepcomputing-fml13v01-u-boot.dtsi b/arch/riscv/dts/jh7110-deepcomputing-fml13v01-u-boot.dtsi
+new file mode 100644
+index 00000000000..ab882d07f6f
+--- /dev/null
++++ b/arch/riscv/dts/jh7110-deepcomputing-fml13v01-u-boot.dtsi
+@@ -0,0 +1,7 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright (C) 2024 StarFive Technology Co., Ltd.
++ */
++
++#include "jh7110-common-u-boot.dtsi"
++#include "starfive-visionfive2-binman.dtsi"
+-- 
+2.43.0
+

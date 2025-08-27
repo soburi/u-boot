@@ -1,0 +1,89 @@
+From 19725b319dcc2cabd2ad578a024524acb82daf10 Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Tue, 11 Feb 2025 14:24:52 +0100
+Subject: [PATCH] tools: use cryptographically safe RNG
+
+The PRNG implementing the random() function only has 2^31 states and
+therefore is unsafe to use for cryptography. Use arc4random() instead.
+
+Fixes: cc34f04efd63 ("tools: image-host.c: use random instead of rand")
+Addresses-Coverity-ID: 312953 Calling risky function
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ tools/image-host.c | 54 ++++++++++++++++++++++++++++------------------
+ 1 file changed, 33 insertions(+), 21 deletions(-)
+
+diff --git a/tools/image-host.c b/tools/image-host.c
+index 84095d760c1..cad3269f5ee 100644
+--- a/tools/image-host.c
++++ b/tools/image-host.c
+@@ -364,33 +364,45 @@ static int fit_image_read_key_iv_data(const char *keydir, const char *key_iv_nam
+ 	return ret;
+ }
+ 
+-static int get_random_data(void *data, int size)
+-{
+-	unsigned char *tmp = data;
+-	struct timespec date;
+-	int i, ret;
+-
+-	if (!tmp) {
+-		fprintf(stderr, "%s: pointer data is NULL\n", __func__);
+-		ret = -1;
+-		goto out;
+-	}
++/**
++ * get_random_data() - fill buffer with random data
++ *
++ * There is no common cryptographically safe function in Linux and BSD.
++ * Hence directly access the /dev/urandom PRNG.
++ *
++ * @data:	buffer to fill
++ * @size:	buffer size
++ */
++static int get_random_data(void *data, size_t size) {
++	int fd;
++	int ret;
+ 
+-	ret = clock_gettime(CLOCK_MONOTONIC, &date);
+-	if (ret) {
+-		fprintf(stderr, "%s: clock_gettime has failed (%s)\n", __func__,
+-			strerror(errno));
+-		goto out;
++	fd = open("/dev/urandom", O_RDONLY);
++	if (fd < 0) {
++		perror("Failed to open /dev/urandom");
++		return -1;
+ 	}
+ 
+-	srandom(date.tv_nsec);
++	while (size) {
++		ssize_t count;
+ 
+-	for (i = 0; i < size; i++) {
+-		*tmp = random() & 0xff;
+-		tmp++;
++		count = read(fd, data, size);
++		if (count < 0) {
++			if (errno == EINTR) {
++				continue;
++			} else {
++				perror("Failed to read from /dev/urandom");
++				ret = -1;
++				goto out;
++			}
++		}
++		data += count;
++		size -= count;
+ 	}
++	ret = 0;
++out:
++	close(fd);
+ 
+- out:
+ 	return ret;
+ }
+ 
+-- 
+2.43.0
+

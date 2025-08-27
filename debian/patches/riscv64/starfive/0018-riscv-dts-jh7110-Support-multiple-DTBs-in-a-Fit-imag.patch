@@ -1,0 +1,105 @@
+From 02df66dc8e70cb010e3abcf22303a4ad792ca9cb Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 8 Dec 2024 17:19:39 +0800
+Subject: [PATCH 18/27] riscv: dts: jh7110: Support multiple DTBs in a Fit
+ image
+
+Support multiple DTBs for JH7110 based boards, so they can
+select the correct DT at runtime.
+
+Tested-by: Anand Moon <linux.amoon@gmail.com>
+Tested-by: E Shattow <lucent@gmail.com>
+Reviewed-by: E Shattow <lucent@gmail.com>
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ arch/riscv/dts/jh7110-common-u-boot.dtsi | 66 +++++++++++++++++++++---
+ 1 file changed, 60 insertions(+), 6 deletions(-)
+
+diff --git a/arch/riscv/dts/jh7110-common-u-boot.dtsi b/arch/riscv/dts/jh7110-common-u-boot.dtsi
+index 45fada34d2f..7871294e90d 100644
+--- a/arch/riscv/dts/jh7110-common-u-boot.dtsi
++++ b/arch/riscv/dts/jh7110-common-u-boot.dtsi
+@@ -109,20 +109,74 @@
+ 	itb {
+ 		fit {
+ 			images {
+-				fdt-1 {
+-					description = "NAME";
++				fdt-jh7110-milkv-mars {
++					description = "jh7110-milkv-mars";
+ 					load = <0x40400000>;
+ 					compression = "none";
+ 
+-					uboot_fdt_blob: blob-ext {
+-						filename = "u-boot.dtb";
++					blob-ext {
++						filename = "dts/upstream/src/riscv/starfive/jh7110-milkv-mars.dtb";
++					};
++				};
++
++				fdt-jh7110-pine64-star64 {
++					description = "jh7110-pine64-star64";
++					load = <0x40400000>;
++					compression = "none";
++
++					blob-ext {
++						filename = "dts/upstream/src/riscv/starfive/jh7110-pine64-star64.dtb";
++					};
++				};
++
++				fdt-jh7110-starfive-visionfive-2-v1.2a {
++					description = "jh7110-starfive-visionfive-2-v1.2a";
++					load = <0x40400000>;
++					compression = "none";
++
++					blob-ext {
++						filename = "dts/upstream/src/riscv/starfive/jh7110-starfive-visionfive-2-v1.2a.dtb";
++					};
++				};
++
++				fdt-jh7110-starfive-visionfive-2-v1.3b {
++					description = "jh7110-starfive-visionfive-2-v1.3b";
++					load = <0x40400000>;
++					compression = "none";
++
++					blob-ext {
++						filename = "dts/upstream/src/riscv/starfive/jh7110-starfive-visionfive-2-v1.3b.dtb";
+ 					};
+ 				};
+ 			};
+ 
+ 			configurations {
+-				conf-1 {
+-					fdt = "fdt-1";
++				conf-jh7110-milkv-mars {
++					description = "jh7110-milkv-mars";
++					firmware = "opensbi";
++					loadables = "uboot";
++					fdt = "fdt-jh7110-milkv-mars";
++				};
++
++				conf-jh7110-pine64-star64 {
++					description = "jh7110-pine64-star64";
++					firmware = "opensbi";
++					loadables = "uboot";
++					fdt = "fdt-jh7110-pine64-star64";
++				};
++
++				conf-jh7110-starfive-visionfive-2-v1.2a {
++					description = "jh7110-starfive-visionfive-2-v1.2a";
++					firmware = "opensbi";
++					loadables = "uboot";
++					fdt = "fdt-jh7110-starfive-visionfive-2-v1.2a";
++				};
++
++				conf-jh7110-starfive-visionfive-2-v1.3b {
++					description = "jh7110-starfive-visionfive-2-v1.3b";
++					firmware = "opensbi";
++					loadables = "uboot";
++					fdt = "fdt-jh7110-starfive-visionfive-2-v1.3b";
+ 				};
+ 			};
+ 		};
+-- 
+2.43.0
+

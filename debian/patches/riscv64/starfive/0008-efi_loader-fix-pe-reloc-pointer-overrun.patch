@@ -1,0 +1,53 @@
+From b1e6da80b0a4ee0f03eac2cd4af25e7d1c0c5077 Mon Sep 17 00:00:00 2001
+From: Aleksandar Gerasimovski <Aleksandar.Gerasimovski@belden.com>
+Date: Fri, 29 Nov 2024 21:09:44 +0000
+Subject: [PATCH 08/27] efi_loader: fix pe reloc pointer overrun
+
+The fix provided by 997fc12ec91 is actually introducing
+a buffer overrun, and the overrun is effective if the
+memory after the reloc section is not zeroed.
+Probably that's why this bug is not always noticeable.
+
+The problem is that 8-bytes 'rel' pointer can be 4-bytes aligned
+according to the PE Format, so the actual relocate function can
+take values after the reloc section.
+
+One example is the following dump from the reloc section:
+
+    bce26000: 3000 0000 000c 0000 0000 0000 0000 0000
+    bce26010: 7c00 9340 67e0 f900 1c00 0ea1 a400 0f20
+
+This section has two relocations at offset bce26008 and bce2600a,
+however the given size (rel_size) for this relocation is 16-bytes
+and this is coming form the efi image Misc.VirtualSize, so in this
+case the 'reloc' pointer ends at affset bce2600c and is taken as
+valid and this is where the overflow is.
+
+In our system we see this problem when we are starting the
+Boot Guard efi image.
+
+This patch is fixing the overrun while preserving the fix done
+by 997fc12ec91.
+
+Signed-off-by: Aleksandar Gerasimovski <aleksandar.gerasimovski@belden.com>
+Reviewed-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ lib/efi_loader/efi_image_loader.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/lib/efi_loader/efi_image_loader.c b/lib/efi_loader/efi_image_loader.c
+index 0ddf69a0918..04075d83cb7 100644
+--- a/lib/efi_loader/efi_image_loader.c
++++ b/lib/efi_loader/efi_image_loader.c
+@@ -121,7 +121,7 @@ static efi_status_t efi_loader_relocate(const IMAGE_BASE_RELOCATION *rel,
+ 		return EFI_SUCCESS;
+ 
+ 	end = (const IMAGE_BASE_RELOCATION *)((const char *)rel + rel_size);
+-	while (rel < end && rel->SizeOfBlock) {
++	while (rel + 1 < end && rel->SizeOfBlock) {
+ 		const uint16_t *relocs = (const uint16_t *)(rel + 1);
+ 		i = (rel->SizeOfBlock - sizeof(*rel)) / sizeof(uint16_t);
+ 		while (i--) {
+-- 
+2.43.0
+

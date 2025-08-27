@@ -1,0 +1,51 @@
+From 4ac51f2dd3e77cd60fb5cc2d9a7488d85ee4aa74 Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 8 Dec 2024 17:19:42 +0800
+Subject: [PATCH 21/27] riscv: cpu: jh7110: Sort the list of imply statements
+
+The imply statements should be sorted in the sequence
+of appearance in .config.
+
+Tested-by: Anand Moon <linux.amoon@gmail.com>
+Tested-by: E Shattow <lucent@gmail.com>
+Suggested-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ arch/riscv/cpu/jh7110/Kconfig | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
+
+diff --git a/arch/riscv/cpu/jh7110/Kconfig b/arch/riscv/cpu/jh7110/Kconfig
+index 9904a60dddb..fa47e55226e 100644
+--- a/arch/riscv/cpu/jh7110/Kconfig
++++ b/arch/riscv/cpu/jh7110/Kconfig
+@@ -16,17 +16,17 @@ config STARFIVE_JH7110
+ 	select SYS_CACHE_SHIFT_6
+ 	select SPL_ZERO_MEM_BEFORE_USE
+ 	select PINCTRL_STARFIVE_JH7110
++	imply SMP
++	imply SPL_RISCV_ACLINT
++	imply SIFIVE_CACHE
++	imply SPL_SYS_MALLOC_CLEAR_ON_INIT
++	imply SPL_LOAD_FIT
++	imply SPL_CPU
++	imply SPL_OPENSBI
++	imply OF_UPSTREAM
++	imply SIFIVE_CCACHE
+ 	imply MMC
+ 	imply MMC_BROKEN_CD
+ 	imply MMC_SPI
+-	imply OF_UPSTREAM
+-	imply RISCV_TIMER if (RISCV_SMODE || SPL_RISCV_SMODE)
+-	imply SIFIVE_CACHE
+-	imply SIFIVE_CCACHE
+-	imply SMP
+ 	imply SPI
+-	imply SPL_CPU
+-	imply SPL_LOAD_FIT
+-	imply SPL_OPENSBI
+-	imply SPL_RISCV_ACLINT
+-	imply SPL_SYS_MALLOC_CLEAR_ON_INIT
++	imply RISCV_TIMER if (RISCV_SMODE || SPL_RISCV_SMODE)
+-- 
+2.43.0
+

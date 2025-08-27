@@ -1,0 +1,53 @@
+From cee5a030ffaf86394fbe90aa3eb89a886aa49a92 Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Tue, 12 Nov 2024 11:26:44 +0100
+Subject: [PATCH 07/27] configs: SiFive Unmatched: add 'nvme scan' to preboot
+
+Without 'nvme scan' the ESP on the NVMe drive is not found early.
+EFI variables cannot be persisted.
+
+    Hit any key to stop autoboot:  0
+    Cannot persist EFI variables without system partition
+    ** Booting bootflow '<NULL>' with efi_mgr
+    Loading Boot0000 'mmc 0' failed
+    EFI boot manager: Cannot load any image
+    Boot failed (err=-14)
+    scanning bus for devices...
+    ** Booting bootflow 'nvme#1.blk#1.bootdev.part_1' with efi
+    Booting /\EFI\BOOT\BOOTRISCV64.EFI
+    error: no suitable video mode found.
+    GNU GRUB  version 2.12
+
+With 'nmve scan' booting works as expected.
+
+    Hit any key to stop autoboot:  0
+    ** Booting bootflow '<NULL>' with efi_mgr
+    Loading Boot0000 'mmc 0' failed
+    Loading Boot0001 'nvme 0' failed
+    Booting: nvme 1
+    error: no suitable video mode found.
+    GNU GRUB  version 2.12
+
+Reported by Yuri Zaporozhets <yuriz@vodafonemail.de>
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ configs/sifive_unmatched_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/sifive_unmatched_defconfig b/configs/sifive_unmatched_defconfig
+index 4fed7eda948..a400538dcbe 100644
+--- a/configs/sifive_unmatched_defconfig
++++ b/configs/sifive_unmatched_defconfig
+@@ -27,7 +27,7 @@ CONFIG_FIT=y
+ CONFIG_SPL_LOAD_FIT_ADDRESS=0x84000000
+ CONFIG_BOOTSTD_DEFAULTS=y
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="setenv fdt_addr ${fdtcontroladdr};fdt addr ${fdtcontroladdr};"
++CONFIG_PREBOOT="setenv fdt_addr ${fdtcontroladdr};fdt addr ${fdtcontroladdr};nvme scan"
+ CONFIG_DEFAULT_FDT_FILE="sifive/hifive-unmatched-a00.dtb"
+ CONFIG_SYS_CBSIZE=256
+ CONFIG_SYS_PBSIZE=276
+-- 
+2.43.0
+

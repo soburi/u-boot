@@ -1,0 +1,31 @@
+From 893630997019672a84b5221f079bf25ccb8f08a6 Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Fri, 7 Feb 2025 00:03:38 +0100
+Subject: [PATCH 23/27] configs: add jh7110-deepcomputing-fml13v01 to VF2
+ defconfig
+
+The DeepComputing Framework motherboard is a JH7110 device support by the
+upstream kernel. Add its device-tree to the list of device-trees to be
+included into the starfive_visionfive_defconfig.
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ configs/starfive_visionfive2_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/starfive_visionfive2_defconfig b/configs/starfive_visionfive2_defconfig
+index c3f2142ae1b..821aea9c236 100644
+--- a/configs/starfive_visionfive2_defconfig
++++ b/configs/starfive_visionfive2_defconfig
+@@ -78,7 +78,7 @@ CONFIG_CMD_WDT=y
+ CONFIG_CMD_TFTPPUT=y
+ CONFIG_CMD_BOOTSTAGE=y
+ CONFIG_OF_BOARD=y
+-CONFIG_OF_LIST="starfive/jh7110-milkv-mars starfive/jh7110-pine64-star64 starfive/jh7110-starfive-visionfive-2-v1.2a starfive/jh7110-starfive-visionfive-2-v1.3b"
++CONFIG_OF_LIST="starfive/jh7110-deepcomputing-fml13v01 starfive/jh7110-milkv-mars starfive/jh7110-pine64-star64 starfive/jh7110-starfive-visionfive-2-v1.2a starfive/jh7110-starfive-visionfive-2-v1.3b"
+ CONFIG_MULTI_DTB_FIT=y
+ CONFIG_ENV_OVERWRITE=y
+ CONFIG_ENV_IS_IN_SPI_FLASH=y
+-- 
+2.43.0
+

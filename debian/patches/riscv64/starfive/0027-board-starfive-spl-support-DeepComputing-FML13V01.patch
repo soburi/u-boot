@@ -1,0 +1,32 @@
+From 447f10ed3db437bcf2da5366e64392a18fbfb6cb Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Fri, 7 Feb 2025 15:59:53 +0100
+Subject: [PATCH 27/27] board: starfive: spl: support DeepComputing FML13V01
+
+On the DeepComputing Framework motherboard (FML13V01) choose the matching
+FIT configuration.
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ board/starfive/visionfive2/spl.c | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/board/starfive/visionfive2/spl.c b/board/starfive/visionfive2/spl.c
+index 22afd76c6b9..e97ea90cf4b 100644
+--- a/board/starfive/visionfive2/spl.c
++++ b/board/starfive/visionfive2/spl.c
+@@ -118,7 +118,10 @@ int board_fit_config_name_match(const char *name)
+ 
+ 	product_id = get_product_id_from_eeprom();
+ 
+-	if (!strncmp(product_id, "VF7110", 6)) {
++	if (!strncmp(product_id, "FML13V01", 8) &&
++	    !strcmp(name, "jh7110-deepcomputing-fml13v01")) {
++		return 0;
++	} else if (!strncmp(product_id, "VF7110", 6)) {
+ 		version = get_pcb_revision_from_eeprom();
+ 		if ((version == 'b' || version == 'B') &&
+ 		    !strcmp(name, "jh7110-starfive-visionfive-2-v1.3b"))
+-- 
+2.43.0
+

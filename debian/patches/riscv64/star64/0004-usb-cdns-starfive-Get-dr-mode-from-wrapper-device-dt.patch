@@ -1,0 +1,48 @@
+From: Minda Chen <minda.chen@starfivetech.com>
+Date: Thu, 23 Jan 2025 09:01:08 +0800
+Subject: [PATCH 4/7] usb: cdns: starfive: Get dr mode from wrapper device dts
+ node
+
+Cdns core driver also get dr mode from wrapper devcie dts node
+to make it is same with Starfive cdns USB Linux kernel driver,
+Starfive 7110 OF_UPSTREAM is enabled
+
+Signed-off-by: Minda Chen <minda.chen@starfivetech.com>
+Reviewed-by: Marek Vasut <marex@denx.de>
+Tested-by: E Shattow <lucent@gmail.com>
+Origin: https://lore.kernel.org/u-boot/20250123010112.78924-5-minda.chen@starfivetech.com/
+---
+ drivers/phy/starfive/phy-jh7110-pcie.c | 2 +-
+ drivers/usb/cdns3/core.c               | 3 +++
+ 2 files changed, 4 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/phy/starfive/phy-jh7110-pcie.c b/drivers/phy/starfive/phy-jh7110-pcie.c
+index ecb04bdedfa..a30582821d9 100644
+--- a/drivers/phy/starfive/phy-jh7110-pcie.c
++++ b/drivers/phy/starfive/phy-jh7110-pcie.c
+@@ -170,7 +170,7 @@ static int starfive_pcie_phy_get_syscon(struct udevice *dev)
+ 	int ret;
+ 
+ 	/* get corresponding syscon phandle */
+-	ret = dev_read_phandle_with_args(dev, "starfive,sys-syscon", NULL, 0, 0,
++	ret = dev_read_phandle_with_args(dev, "starfive,sys-syscon", NULL, 1, 0,
+ 					 &sys_phandle);
+ 
+ 	if (ret < 0) {
+diff --git a/drivers/usb/cdns3/core.c b/drivers/usb/cdns3/core.c
+index 4cfd38ec245..4434dc15bec 100644
+--- a/drivers/usb/cdns3/core.c
++++ b/drivers/usb/cdns3/core.c
+@@ -410,6 +410,9 @@ int cdns3_bind(struct udevice *parent)
+ 	name = ofnode_get_name(node);
+ 	dr_mode = usb_get_dr_mode(node);
+ 
++	if (dr_mode == USB_DR_MODE_UNKNOWN)
++		dr_mode = usb_get_dr_mode(dev_ofnode(parent));
++
+ 	switch (dr_mode) {
+ #if defined(CONFIG_SPL_USB_HOST) || \
+ 	(!defined(CONFIG_XPL_BUILD) && defined(CONFIG_USB_HOST))
+-- 
+2.47.1
+

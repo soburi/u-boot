@@ -1,0 +1,33 @@
+From b05be1e43fb90776ca58ff80fd5b2ad7a07fe039 Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 8 Dec 2024 17:19:40 +0800
+Subject: [PATCH 19/27] board: starfive: spl: Fix the wrong use of
+ CONFIG_IS_ENABLED()
+
+The prefix "SPL_" is not needed when using CONFIG_IS_ENABLED().
+
+Tested-by: Anand Moon <linux.amoon@gmail.com>
+Tested-by: E Shattow <lucent@gmail.com>
+Reviewed-by: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Fixes: 5ecf9b0b8a75 ("board: starfive: add StarFive VisionFive v2 board support")
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ board/starfive/visionfive2/spl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/board/starfive/visionfive2/spl.c b/board/starfive/visionfive2/spl.c
+index 38132ecccd3..cf7f39d5c55 100644
+--- a/board/starfive/visionfive2/spl.c
++++ b/board/starfive/visionfive2/spl.c
+@@ -110,7 +110,7 @@ void board_init_f(ulong dummy)
+ 	}
+ }
+ 
+-#if CONFIG_IS_ENABLED(SPL_LOAD_FIT)
++#if CONFIG_IS_ENABLED(LOAD_FIT)
+ int board_fit_config_name_match(const char *name)
+ {
+ 	/* boot using first FIT config */
+-- 
+2.43.0
+

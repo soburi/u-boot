@@ -1,0 +1,43 @@
+From 5791aca1aa7dff5c54153db12f87707c31871f74 Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Fri, 7 Feb 2025 00:11:31 +0100
+Subject: [PATCH 26/27] board: starfive: DeepComputing FML13V01 fdt selection
+
+We support all JH7110 boards with starfive_visionfive2_defconfig.
+The relevant device-tree is selected at runtime based on EEPROM data.
+
+Support setting $fdtfile to the file name of the DeepComputing Framework
+motherboard (FML13V01) device-tree.
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ board/starfive/visionfive2/starfive_visionfive2.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+diff --git a/board/starfive/visionfive2/starfive_visionfive2.c b/board/starfive/visionfive2/starfive_visionfive2.c
+index f6114602f88..48ca1531928 100644
+--- a/board/starfive/visionfive2/starfive_visionfive2.c
++++ b/board/starfive/visionfive2/starfive_visionfive2.c
+@@ -17,6 +17,8 @@
+ DECLARE_GLOBAL_DATA_PTR;
+ #define JH7110_L2_PREFETCHER_BASE_ADDR		0x2030000
+ #define JH7110_L2_PREFETCHER_HART_OFFSET	0x2000
++#define FDTFILE_FML13V01 \
++	"starfive/jh7110-deepcomputing-fml13v01.dtb"
+ #define FDTFILE_MILK_V_MARS \
+ 	"starfive/jh7110-milkv-mars.dtb"
+ #define FDTFILE_MILK_V_MARS_CM \
+@@ -67,7 +69,9 @@ static void set_fdtfile(void)
+ 		log_err("Can't read EEPROM\n");
+ 		return;
+ 	}
+-	if (!strncmp(product_id, "MARC", 4)) {
++	if (!strncmp(product_id, "FML13V01", 8)) {
++		fdtfile = FDTFILE_FML13V01;
++	} else if (!strncmp(product_id, "MARC", 4)) {
+ 		if (get_mmc_size_from_eeprom())
+ 			fdtfile = FDTFILE_MILK_V_MARS_CM;
+ 		else
+-- 
+2.43.0
+

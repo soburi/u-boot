@@ -1,0 +1,63 @@
+From f3ff73439c0ebbb93ebddc611ca223279b07b898 Mon Sep 17 00:00:00 2001
+From: Hal Feng <hal.feng@starfivetech.com>
+Date: Sun, 8 Dec 2024 17:19:36 +0800
+Subject: [PATCH 15/27] riscv: dts: jh7110: Add u-boot device tree for JH7110
+ based boards
+
+To support the other JH7110 based boards, add u-boot
+device tree for them.
+
+Tested-by: Anand Moon <linux.amoon@gmail.com>
+Tested-by: E Shattow <lucent@gmail.com>
+Reviewed-by: E Shattow <lucent@gmail.com>
+Cc: Heinrich Schuchardt <xypron.glpk@gmx.de>
+Cc: H Bell <dmoo_dv@protonmail.com>
+Signed-off-by: Hal Feng <hal.feng@starfivetech.com>
+---
+ arch/riscv/dts/jh7110-milkv-mars-u-boot.dtsi                | 6 ++++++
+ arch/riscv/dts/jh7110-pine64-star64-u-boot.dtsi             | 6 ++++++
+ .../dts/jh7110-starfive-visionfive-2-v1.2a-u-boot.dtsi      | 6 ++++++
+ 3 files changed, 18 insertions(+)
+ create mode 100644 arch/riscv/dts/jh7110-milkv-mars-u-boot.dtsi
+ create mode 100644 arch/riscv/dts/jh7110-pine64-star64-u-boot.dtsi
+ create mode 100644 arch/riscv/dts/jh7110-starfive-visionfive-2-v1.2a-u-boot.dtsi
+
+diff --git a/arch/riscv/dts/jh7110-milkv-mars-u-boot.dtsi b/arch/riscv/dts/jh7110-milkv-mars-u-boot.dtsi
+new file mode 100644
+index 00000000000..9df1e5db553
+--- /dev/null
++++ b/arch/riscv/dts/jh7110-milkv-mars-u-boot.dtsi
+@@ -0,0 +1,6 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright (C) 2024 StarFive Technology Co., Ltd.
++ */
++
++#include "jh7110-common-u-boot.dtsi"
+diff --git a/arch/riscv/dts/jh7110-pine64-star64-u-boot.dtsi b/arch/riscv/dts/jh7110-pine64-star64-u-boot.dtsi
+new file mode 100644
+index 00000000000..9df1e5db553
+--- /dev/null
++++ b/arch/riscv/dts/jh7110-pine64-star64-u-boot.dtsi
+@@ -0,0 +1,6 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright (C) 2024 StarFive Technology Co., Ltd.
++ */
++
++#include "jh7110-common-u-boot.dtsi"
+diff --git a/arch/riscv/dts/jh7110-starfive-visionfive-2-v1.2a-u-boot.dtsi b/arch/riscv/dts/jh7110-starfive-visionfive-2-v1.2a-u-boot.dtsi
+new file mode 100644
+index 00000000000..9df1e5db553
+--- /dev/null
++++ b/arch/riscv/dts/jh7110-starfive-visionfive-2-v1.2a-u-boot.dtsi
+@@ -0,0 +1,6 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright (C) 2024 StarFive Technology Co., Ltd.
++ */
++
++#include "jh7110-common-u-boot.dtsi"
+-- 
+2.43.0
+

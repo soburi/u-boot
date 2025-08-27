@@ -1,0 +1,42 @@
+From 2da75a560cfcd24728ff31e051e808d1f88cb60e Mon Sep 17 00:00:00 2001
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Date: Fri, 7 Feb 2025 08:30:17 +0100
+Subject: [PATCH 09/27] riscv: dts: starfive: add DeepComputing FML13V01 board
+ device tree
+
+The FML13V01 board from DeepComputing incorporates a StarFive JH7110 SoC.
+It is a mainboard designed for the Framework Laptop 13 Chassis, which has
+(Framework) SKU FRANHQ0001.
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ .../starfive/jh7110-deepcomputing-fml13v01.dts  | 17 +++++++++++++++++
+ 1 file changed, 17 insertions(+)
+ create mode 100644 dts/upstream/src/riscv/starfive/jh7110-deepcomputing-fml13v01.dts
+
+diff --git a/dts/upstream/src/riscv/starfive/jh7110-deepcomputing-fml13v01.dts b/dts/upstream/src/riscv/starfive/jh7110-deepcomputing-fml13v01.dts
+new file mode 100644
+index 00000000000..30b0715196b
+--- /dev/null
++++ b/dts/upstream/src/riscv/starfive/jh7110-deepcomputing-fml13v01.dts
+@@ -0,0 +1,17 @@
++// SPDX-License-Identifier: GPL-2.0 OR MIT
++/*
++ * Copyright (C) 2024 DeepComputing (HK) Limited
++ */
++
++/dts-v1/;
++#include "jh7110-common.dtsi"
++
++/ {
++	model = "DeepComputing FML13V01";
++	compatible = "deepcomputing,fml13v01", "starfive,jh7110";
++};
++
++&usb0 {
++	dr_mode = "host";
++	status = "okay";
++};
+-- 
+2.43.0
+

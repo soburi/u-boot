@@ -1,0 +1,26 @@
+From: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+Subject: [PATCH 1/1] configs: visionfive2: add 'usb reset' in PREBOOT
+Date: Fri,  2 Feb 2024 22:41:57 +0100
+
+When starting up USB some devices are detected twice and USB block
+devices are not usable. Issuing a 'usb reset' resolves the situation.
+
+This needs a proper upstream fix. But at least with this quirk USB
+block devices become usable.
+
+Signed-off-by: Heinrich Schuchardt <heinrich.schuchardt@canonical.com>
+---
+ configs/starfive_visionfive2_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+--- a/configs/starfive_visionfive2_defconfig
++++ b/configs/starfive_visionfive2_defconfig
+@@ -41,7 +41,7 @@ CONFIG_OF_BOARD_SETUP=y
+ CONFIG_USE_BOOTARGS=y
+ CONFIG_BOOTARGS="console=ttyS0,115200 debug rootwait earlycon=sbi"
+ CONFIG_USE_PREBOOT=y
+-CONFIG_PREBOOT="nvme scan; usb start; setenv fdt_addr ${fdtcontroladdr}; fdt addr ${fdtcontroladdr};"
++CONFIG_PREBOOT="nvme scan; usb start; usb reset; setenv fdt_addr ${fdtcontroladdr}; fdt addr ${fdtcontroladdr};"
+ CONFIG_SYS_CBSIZE=256
+ CONFIG_SYS_PBSIZE=276
+ CONFIG_DISPLAY_CPUINFO=y
