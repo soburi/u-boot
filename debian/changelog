@@ -1,3 +1,9 @@
+u-boot (2025.01-1~0xenvirtio1) plucky; urgency=medium
+
+  * Xen-VirtIO
+
+ -- TOKITA Hiroshi <tokita.hiroshi@gmail.com>  Wed, 27 Aug 2025 13:32:20 +0900
+
 u-boot (2025.01-1~0ubuntu2.1) plucky; urgency=medium
 
   * Handle rename of u-boot-amlogic to u-boot-amlogic-binaries properly
