@@ -1,0 +1,16 @@
+Index: u-boot/configs/rpi_arm64_defconfig
+===================================================================
+--- u-boot.orig/configs/rpi_arm64_defconfig
++++ u-boot/configs/rpi_arm64_defconfig
+@@ -92,3 +92,11 @@ CONFIG_OF_REAL=y
+ CONFIG_RP1_GPIO=y
+ CONFIG_BOARD_LATE_INIT=y
+ CONFIG_BOARD_TYPES=y
++
++CONFIG_BOOTM=y
++CONFIG_BOOTSTAGE_STASH_ADDR=0x0
++CONFIG_BOOTSTAGE_STASH_SIZE=0x1000
++CONFIG_CMD_BOOTEFI_HELLO_COMPILE=y
++CONFIG_LEGACY_IMAGE_FORMAT=y
++CONFIG_LMB_MAX_REGIONS=16
++CONFIG_LMB_USE_MAX_REGIONS=y

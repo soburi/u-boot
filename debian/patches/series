@@ -88,3 +88,4 @@ xt-rpi5/0017-HACK-drivers-mfd-set-bar-configuration-for-RP1-drive.patch
 xt-rpi5/0018-drivers-pci-pcie_brcmstb-use-bus_base-to-config-PCI-.patch
 xt-rpi5/0019-drivers-pci-pcie_brcmstb-set-correct-reset-state-on-.patch
 xt-rpi5/0020-bcm2712-enable-linux-kernel-image-header.patch
+more-rpi5-config
