@@ -67,3 +67,24 @@ riscv64/star64/0006-spl-starfive-visionfive2-Disable-USB-overcurrent-pin.patch
 riscv64/star64/0007-configs-starfive-Add-visionfive2-cadence-USB-configu.patch
 
 use-cryptographically-safe-RNG.patch
+
+xt-rpi5/0001-include-dt-bindings-clk-introduce-bindings-for-rp1-c.patch
+xt-rpi5/0002-include-dt-bindings-mfd-introduce-bindings-for-RP1-d.patch
+xt-rpi5/0003-arch-arm-mach-bcm283x-add-pcie-memory-region-to-BCM2.patch
+xt-rpi5/0004-arch-arm-mach-bcm283x-add-BCM2712-board-support.patch
+xt-rpi5/0005-drivers-net-macb-do-not-include-arch-clk.h-when-cloc.patch
+xt-rpi5/0006-drivers-pci-take-into-account-that-ofnode_read_pci_v.patch
+xt-rpi5/0007-drivers-core-of_addr-fix-of_get_dma_range-translatio.patch
+xt-rpi5/0008-board-raspberrypi-rpi-save-board_type-to-the-global_.patch
+xt-rpi5/0009-drivers-pci-add-BCM2712-support-for-pcie_brcmstb-dri.patch
+xt-rpi5/0010-drivers-mfd-introduce-RP1-chip-driver-for-RPI5.patch
+xt-rpi5/0011-drivers-gpio-add-support-of-RP1-GPIO-for-Raspberry-P.patch
+xt-rpi5/0012-drivers-reset-introduce-reset-drivers-for-brcmstb.patch
+xt-rpi5/0013-drivers-clk-introduce-clock-driver-for-RP1.patch
+xt-rpi5/0014-drivers-net-macb-introduce-ePCI-connection-support-f.patch
+xt-rpi5/0015-configs-add-support-for-the-Raspberrypi-5-board-to-d.patch
+xt-rpi5/0016-board-raspberrypi-rpi-request-RP1-in-late_init.patch
+xt-rpi5/0017-HACK-drivers-mfd-set-bar-configuration-for-RP1-drive.patch
+xt-rpi5/0018-drivers-pci-pcie_brcmstb-use-bus_base-to-config-PCI-.patch
+xt-rpi5/0019-drivers-pci-pcie_brcmstb-set-correct-reset-state-on-.patch
+xt-rpi5/0020-bcm2712-enable-linux-kernel-image-header.patch
