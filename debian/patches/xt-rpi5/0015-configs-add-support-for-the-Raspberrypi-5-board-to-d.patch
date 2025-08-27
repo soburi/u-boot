@@ -15,10 +15,10 @@ Reviewed-by: Volodymyr Babchuk <volodymyr_babchuk@epam.com>
  configs/rpi_arm64_defconfig | 19 +++++++++++++++++++
  1 file changed, 19 insertions(+)
 
-diff --git a/configs/rpi_arm64_defconfig b/configs/rpi_arm64_defconfig
-index 9fe5d177943..1a3668f3993 100644
---- a/configs/rpi_arm64_defconfig
-+++ b/configs/rpi_arm64_defconfig
+Index: u-boot/configs/rpi_arm64_defconfig
+===================================================================
+--- u-boot.orig/configs/rpi_arm64_defconfig
++++ u-boot/configs/rpi_arm64_defconfig
 @@ -1,6 +1,7 @@
  CONFIG_ARM=y
  CONFIG_POSITION_INDEPENDENT=y
@@ -27,10 +27,10 @@ index 9fe5d177943..1a3668f3993 100644
  CONFIG_TARGET_RPI_ARM64=y
  CONFIG_ENV_SIZE=0x4000
  CONFIG_DEFAULT_DEVICE_TREE="bcm2711-rpi-4-b"
-@@ -64,3 +65,21 @@ CONFIG_VIDEO_BCM2835=y
- CONFIG_CONSOLE_SCROLL_LINES=10
- CONFIG_PHYS_TO_BUS=y
- # CONFIG_HEXDUMP is not set
+@@ -73,3 +74,21 @@ CONFIG_TOOLS_FIT_SIGNATURE=y
+ CONFIG_TOOLS_FIT_VERBOSE=y
+ CONFIG_TOOLS_FIT_PRINT=y
+ CONFIG_ZSTD=y
 +
 +CONFIG_RESET_BRCMSTB=y
 +CONFIG_MFD_RP1=y
@@ -49,6 +49,3 @@ index 9fe5d177943..1a3668f3993 100644
 +CONFIG_RP1_GPIO=y
 +CONFIG_BOARD_LATE_INIT=y
 +CONFIG_BOARD_TYPES=y
--- 
-2.48.1
-
