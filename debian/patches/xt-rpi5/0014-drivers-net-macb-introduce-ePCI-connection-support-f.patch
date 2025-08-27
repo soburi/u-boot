@@ -18,10 +18,10 @@ Reviewed-by: Volodymyr Babchuk <volodymyr_babchuk@epam.com>
  drivers/net/macb.h  |  16 +++++
  3 files changed, 140 insertions(+), 31 deletions(-)
 
-diff --git a/drivers/net/Kconfig b/drivers/net/Kconfig
-index 576cd2d50ad..9214beb71b9 100644
---- a/drivers/net/Kconfig
-+++ b/drivers/net/Kconfig
+Index: u-boot/drivers/net/Kconfig
+===================================================================
+--- u-boot.orig/drivers/net/Kconfig
++++ u-boot/drivers/net/Kconfig
 @@ -573,6 +573,7 @@ config MVPP2
  config MACB
  	bool "Cadence MACB/GEM Ethernet Interface"
@@ -30,10 +30,10 @@ index 576cd2d50ad..9214beb71b9 100644
  	help
  	  The Cadence MACB ethernet interface is found on many Atmel
  	  AT91 and SAMA5 parts.  This driver also supports the Cadence
-diff --git a/drivers/net/macb.c b/drivers/net/macb.c
-index a54a268036d..d5d8dbc48c3 100644
---- a/drivers/net/macb.c
-+++ b/drivers/net/macb.c
+Index: u-boot/drivers/net/macb.c
+===================================================================
+--- u-boot.orig/drivers/net/macb.c
++++ u-boot/drivers/net/macb.c
 @@ -31,6 +31,7 @@
   * core modifications here...
   */
@@ -70,7 +70,7 @@ index a54a268036d..d5d8dbc48c3 100644
  };
  
  struct macb_usrio_cfg {
-@@ -272,47 +280,70 @@ int macb_miiphy_write(struct mii_dev *bus, int phy_adr, int devad, int reg,
+@@ -272,47 +280,70 @@ int macb_miiphy_write(struct mii_dev *bu
  
  	arch_get_mdio_control(bus->name);
  	macb_mdio_write(macb, phy_adr, reg, value);
@@ -156,7 +156,7 @@ index a54a268036d..d5d8dbc48c3 100644
  }
  
  #if defined(CONFIG_CMD_NET)
-@@ -338,12 +369,12 @@ static void macb_set_addr(struct macb_device *macb, struct macb_dma_desc *desc,
+@@ -338,12 +369,12 @@ static void macb_set_addr(struct macb_de
  static int _macb_send(struct macb_device *macb, const char *name, void *packet,
  		      int length)
  {
@@ -171,7 +171,7 @@ index a54a268036d..d5d8dbc48c3 100644
  	ctrl = length & TXBUF_FRMLEN_MASK;
  	ctrl |= MACB_BIT(TX_LAST);
  	if (tx_head == (MACB_TX_RING_SIZE - 1)) {
-@@ -357,7 +388,7 @@ static int _macb_send(struct macb_device *macb, const char *name, void *packet,
+@@ -357,7 +388,7 @@ static int _macb_send(struct macb_device
  		tx_head = tx_head * 2;
  
  	macb->tx_ring[tx_head].ctrl = ctrl;
@@ -180,7 +180,7 @@ index a54a268036d..d5d8dbc48c3 100644
  
  	barrier();
  	macb_flush_ring_desc(macb, TX);
-@@ -665,6 +696,22 @@ int __weak macb_linkspd_cb(struct udevice *dev, unsigned int speed)
+@@ -665,6 +696,22 @@ int __weak macb_linkspd_cb(struct udevic
  	return 0;
  }
  
@@ -203,7 +203,7 @@ index a54a268036d..d5d8dbc48c3 100644
  static int macb_phy_init(struct udevice *dev, const char *name)
  {
  	struct macb_device *macb = dev_get_priv(dev);
-@@ -814,8 +861,8 @@ static int gmac_init_multi_queues(struct macb_device *macb)
+@@ -814,8 +861,8 @@ static int gmac_init_multi_queues(struct
  
  	macb->dummy_desc->ctrl = MACB_BIT(TX_USED);
  	macb->dummy_desc->addr = 0;
@@ -214,7 +214,7 @@ index a54a268036d..d5d8dbc48c3 100644
  	paddr = macb->dummy_desc_dma;
  
  	for (i = 1; i < num_queues; i++) {
-@@ -919,6 +966,14 @@ static int _macb_init(struct udevice *dev, const char *name)
+@@ -919,6 +966,14 @@ static int _macb_init(struct udevice *de
  		macb_writel(macb, TBQPH, upper_32_bits(macb->tx_ring_dma));
  	}
  
@@ -229,7 +229,7 @@ index a54a268036d..d5d8dbc48c3 100644
  	if (macb_is_gem(macb)) {
  		/* Initialize DMA properties */
  		gmac_configure_dma(macb);
-@@ -1080,7 +1135,7 @@ static u32 macb_dbw(struct macb_device *macb)
+@@ -1080,7 +1135,7 @@ static u32 macb_dbw(struct macb_device *
  	}
  }
  
@@ -238,7 +238,7 @@ index a54a268036d..d5d8dbc48c3 100644
  {
  	int id = 0;	/* This is not used by functions we call */
  	u32 ncfgr;
-@@ -1094,13 +1149,23 @@ static void _macb_eth_initialize(struct macb_device *macb)
+@@ -1094,13 +1149,23 @@ static void _macb_eth_initialize(struct
  	macb->rx_buffer = dma_alloc_coherent(macb->rx_buffer_size *
  					     MACB_RX_RING_SIZE,
  					     &macb->rx_buffer_dma);
@@ -264,7 +264,7 @@ index a54a268036d..d5d8dbc48c3 100644
  	/*
  	 * Do some basic initialization so that we at least can talk
  	 * to the PHY
-@@ -1174,11 +1239,19 @@ static const struct eth_ops macb_eth_ops = {
+@@ -1174,11 +1239,19 @@ static const struct eth_ops macb_eth_ops
  static int macb_enable_clk(struct udevice *dev)
  {
  	struct macb_device *macb = dev_get_priv(dev);
@@ -287,7 +287,7 @@ index a54a268036d..d5d8dbc48c3 100644
  	if (ret)
  		return -EINVAL;
  
-@@ -1191,11 +1264,17 @@ static int macb_enable_clk(struct udevice *dev)
+@@ -1191,11 +1264,17 @@ static int macb_enable_clk(struct udevic
  	if (ret && ret != -ENOSYS)
  		return ret;
  
@@ -309,7 +309,7 @@ index a54a268036d..d5d8dbc48c3 100644
  
  	return 0;
  }
-@@ -1226,6 +1305,7 @@ static int macb_eth_probe(struct udevice *dev)
+@@ -1226,6 +1305,7 @@ static int macb_eth_probe(struct udevice
  	if (macb->phy_interface == PHY_INTERFACE_MODE_NA)
  		return -EINVAL;
  
@@ -317,7 +317,7 @@ index a54a268036d..d5d8dbc48c3 100644
  	/* Read phyaddr from DT */
  	if (!dev_read_phandle_with_args(dev, "phy-handle", NULL, 0, 0,
  					&phandle_args))
-@@ -1251,7 +1331,7 @@ static int macb_eth_probe(struct udevice *dev)
+@@ -1251,7 +1331,7 @@ static int macb_eth_probe(struct udevice
  		return ret;
  #endif
  
@@ -326,7 +326,7 @@ index a54a268036d..d5d8dbc48c3 100644
  
  #if defined(CONFIG_CMD_MII) || defined(CONFIG_PHYLIB)
  	macb->bus = mdio_alloc();
-@@ -1260,6 +1340,7 @@ static int macb_eth_probe(struct udevice *dev)
+@@ -1260,6 +1340,7 @@ static int macb_eth_probe(struct udevice
  	strlcpy(macb->bus->name, dev->name, MDIO_NAME_LEN);
  	macb->bus->read = macb_miiphy_read;
  	macb->bus->write = macb_miiphy_write;
@@ -334,7 +334,7 @@ index a54a268036d..d5d8dbc48c3 100644
  
  	ret = mdio_register(macb->bus);
  	if (ret < 0)
-@@ -1301,6 +1382,7 @@ static int macb_eth_of_to_plat(struct udevice *dev)
+@@ -1301,6 +1382,7 @@ static int macb_eth_of_to_plat(struct ud
  	void *blob = (void *)gd->fdt_blob;
  	int node = dev_of_offset(dev);
  	int fl_node, speed_fdt;
@@ -342,7 +342,7 @@ index a54a268036d..d5d8dbc48c3 100644
  
  	/* fetch 'fixed-link' property */
  	fl_node = fdt_subnode_offset(blob, node, "fixed-link");
-@@ -1324,6 +1406,16 @@ static int macb_eth_of_to_plat(struct udevice *dev)
+@@ -1324,6 +1406,16 @@ static int macb_eth_of_to_plat(struct ud
  	if (!pdata->iobase)
  		return -EINVAL;
  
@@ -359,10 +359,10 @@ index a54a268036d..d5d8dbc48c3 100644
  	return macb_late_eth_of_to_plat(dev);
  }
  
-diff --git a/drivers/net/macb.h b/drivers/net/macb.h
-index 0eb90574618..a8f4fc494a6 100644
---- a/drivers/net/macb.h
-+++ b/drivers/net/macb.h
+Index: u-boot/drivers/net/macb.h
+===================================================================
+--- u-boot.orig/drivers/net/macb.h
++++ u-boot/drivers/net/macb.h
 @@ -69,6 +69,7 @@
  #define GEM_USRIO		0x000c /* User IO */
  #define GEM_DMACFG		0x0010 /* DMA Configuration */
@@ -393,6 +393,3 @@ index 0eb90574618..a8f4fc494a6 100644
  /* limit RX checksum offload to TCP and UDP packets */
  #define GEM_RX_CSUM_CHECKED_MASK		2
  #define gem_writel_queue_TBQP(port, value, queue_num)	\
--- 
-2.48.1
-
